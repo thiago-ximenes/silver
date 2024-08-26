@@ -1,23 +1,25 @@
 services:
-  silver-backend:
-    build: ./silver-backend
-    container_name: silver-backend
+  silver-frontend:
+    build: ./silver-frontend
+    container_name: silver-frontend
     restart: always
-    env_file: ./silver-backend/.env
-    command: npm run start:dev
+    env_file: .env
     ports:
-      - "${PORT-3000}:3000"
+      - "5173:5173"
     volumes:
-      - .:/app
+      - ./silver-frontend:/app
+    command: npm run dev -- --host 0.0.0.0
     depends_on:
-      silver-database:
-        condition: service_healthy
+      - silver-backend
+    networks:
+      - mynet
+    tty: true
 
   silver-database:
     image: postgres:15
     container_name: silver-database
     restart: always
-    env_file: ./silver-backend/.env
+    env_file: .env
     ports:
       - "${DB_PORT-5432}:5432"
     environment:
@@ -30,3 +32,33 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - mynet
+
+  silver-backend:
+    build:
+      context: ./silver-backend
+      dockerfile: Dockerfile
+    container_name: silver-backend
+    restart: always
+    env_file: .env
+    command: npm run start:dev
+    ports:
+      - "${PORT-3000}:3000"
+    volumes:
+      - ./silver-backend:/app
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://host.docker.internal:${PORT-3000}/graphql?query=%7B__typename%7D || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      silver-database:
+        condition: service_healthy
+    networks:
+      - mynet
+    tty: true
+
+networks:
+  mynet:
+    driver: bridge

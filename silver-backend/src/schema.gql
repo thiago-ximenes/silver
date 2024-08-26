@@ -57,22 +57,10 @@ type User {
 
 type Query {
   users: [User!]!
-  user(id: Int!): User!
 }
 
 type Mutation {
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
   createUser(createUserInput: CreateUserInput!): User!
-}
-
-input UpdateUserInput {
-  """username"""
-  username: String
-
-  """password"""
-  password: String
-  id: Int!
 }
 
 input CreateUserInput {
