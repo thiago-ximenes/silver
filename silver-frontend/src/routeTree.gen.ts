@@ -11,51 +11,64 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AuthImport } from './routes/_auth'
-import { Route as guestRegisterImport } from './routes/(guest)/register'
-import { Route as guestLoginImport } from './routes/(guest)/login'
+import { Route as LayoutImport } from './routes/_layout'
+import { Route as LayoutAuthImport } from './routes/_layout/_auth'
+import { Route as LayoutguestRegisterImport } from './routes/_layout/(guest)/register'
+import { Route as LayoutguestLoginImport } from './routes/_layout/(guest)/login'
 
 // Create/Update Routes
 
-const AuthRoute = AuthImport.update({
+const LayoutRoute = LayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LayoutAuthRoute = LayoutAuthImport.update({
   id: '/_auth',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const guestRegisterRoute = guestRegisterImport.update({
+const LayoutguestRegisterRoute = LayoutguestRegisterImport.update({
   path: '/register',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
-const guestLoginRoute = guestLoginImport.update({
+const LayoutguestLoginRoute = LayoutguestLoginImport.update({
   path: '/login',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_auth': {
-      id: '/_auth'
+    '/_layout': {
+      id: '/_layout'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthImport
+      preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
-    '/(guest)/login': {
-      id: '/login'
+    '/_layout/_auth': {
+      id: '/_layout/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutAuthImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/(guest)/login': {
+      id: '/_layout/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof guestLoginImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof LayoutguestLoginImport
+      parentRoute: typeof LayoutImport
     }
-    '/(guest)/register': {
-      id: '/register'
+    '/_layout/(guest)/register': {
+      id: '/_layout/register'
       path: '/register'
       fullPath: '/register'
-      preLoaderRoute: typeof guestRegisterImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof LayoutguestRegisterImport
+      parentRoute: typeof LayoutImport
     }
   }
 }
@@ -63,8 +76,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  guestLoginRoute,
-  guestRegisterRoute,
+  LayoutRoute: LayoutRoute.addChildren({
+    LayoutguestLoginRoute,
+    LayoutguestRegisterRoute,
+  }),
 })
 
 /* prettier-ignore-end */
@@ -75,19 +90,28 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_auth",
-        "/login",
-        "/register"
+        "/_layout"
       ]
     },
-    "/_auth": {
-      "filePath": "_auth.tsx"
+    "/_layout": {
+      "filePath": "_layout.tsx",
+      "children": [
+        "/_layout/_auth",
+        "/_layout/login",
+        "/_layout/register"
+      ]
     },
-    "/login": {
-      "filePath": "(guest)/login.tsx"
+    "/_layout/_auth": {
+      "filePath": "_layout/_auth.tsx",
+      "parent": "/_layout"
     },
-    "/register": {
-      "filePath": "(guest)/register.tsx"
+    "/_layout/login": {
+      "filePath": "_layout/(guest)/login.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/register": {
+      "filePath": "_layout/(guest)/register.tsx",
+      "parent": "/_layout"
     }
   }
 }
