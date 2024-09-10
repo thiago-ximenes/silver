@@ -12,6 +12,8 @@ import { ProjectsModule } from './projects/projects.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import authConstants from './auth/auth.constants';
 import { AuthGuard } from './auth/auth.guard';
+import { PrismaModule } from './prisma/prisma.module';
+import { PermissionsGuard } from './permissions/permissions.guard';
 
 @Module({
   imports: [
@@ -29,11 +31,16 @@ import { AuthGuard } from './auth/auth.guard';
     TasksModule,
     ProjectsModule,
     PermissionsModule,
+    PrismaModule,
   ],
   providers: [
     {
       provide: authConstants.appGuard,
       useClass: AuthGuard,
+    },
+    {
+      provide: authConstants.appGuard,
+      useClass: PermissionsGuard,
     },
   ],
 })

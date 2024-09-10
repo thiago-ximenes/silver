@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Field, HideField, Int, ObjectType } from '@nestjs/graphql';
 import { Role } from '../../roles/entities/role.entity';
 import { Task } from '../../tasks/entities/task.entity';
 import { Project } from '../../projects/entities/project.entity';
@@ -11,7 +11,7 @@ export class User {
   @Field()
   username: string;
 
-  @Field()
+  @HideField()
   password: string;
 
   @Field()

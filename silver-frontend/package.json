@@ -10,13 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@apollo/client": "^3.11.4",
+    "@apollo/client": "^3.11.8",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@hookform/resolvers": "^3.9.0",
-    "@mui/icons-material": "^5.16.7",
-    "@mui/material": "^5.16.7",
-    "@tanstack/react-router": "^1.50.1",
+    "@mui/icons-material": "^6.0.2",
+    "@mui/lab": "^6.0.0-beta.9",
+    "@mui/material": "^6.0.2",
+    "@mui/x-date-pickers": "^7.16.0",
+    "@tanstack/react-router": "^1.57.9",
+    "buffer": "^6.0.3",
+    "date-fns": "^3.6.0",
     "graphql": "^16.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -25,18 +30,19 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@tanstack/router-devtools": "^1.50.1",
-    "@tanstack/router-plugin": "^1.49.3",
-    "@types/react": "^18.3.3",
+    "@eslint/js": "^9.10.0",
+    "@tanstack/router-devtools": "^1.57.9",
+    "@tanstack/router-plugin": "^1.57.9",
+    "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^9.9.0",
+    "eslint": "^9.10.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
+    "eslint-plugin-react-refresh": "^0.4.11",
     "globals": "^15.9.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.5.0",
+    "vite": "^5.4.3",
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }

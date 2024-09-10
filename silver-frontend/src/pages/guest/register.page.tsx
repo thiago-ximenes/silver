@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateUserFormSchema,
   createUserFormSchema,
-} from "../schema/form/create-user.form.schema.ts";
+} from "../../schema/form/create-user.form.schema.ts";
 import { Link } from "@tanstack/react-router";
 import MLink from "@mui/material/Link";
 import { toast } from "react-toastify";
@@ -37,7 +37,10 @@ export function RegisterPage() {
     },
     onError: (error) => {
       if (error.message === "User already exists") {
-        return toast.error("Usuário já existe");
+        return form.setError("username", {
+          type: "manual",
+          message: "Usuário já existe",
+        });
       }
 
       toast.error("Erro ao criar usuário");
@@ -67,6 +70,8 @@ export function RegisterPage() {
       display="flex"
       flexDirection="column"
       justifyContent="center"
+      alignItems="center"
+      width="100%"
       my="auto"
       p={3}
     >
@@ -153,7 +158,9 @@ export function RegisterPage() {
               textDecoration: "none",
             }}
           >
-            <MLink underline="hover">Já tem uma conta? Faça login</MLink>
+            <MLink component="span" underline="hover">
+              Já tem uma conta? Faça login
+            </MLink>
           </Link>
         </Box>
       </Box>

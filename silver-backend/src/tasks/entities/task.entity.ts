@@ -10,17 +10,26 @@ export class Task {
   @Field()
   title: string;
 
-  @Field()
-  description: string;
+  @Field(() => String, {
+    nullable: true,
+  })
+  description: string | null;
 
-  @Field()
+  @Field(() => Date, {
+    nullable: true,
+  })
   dueDate: Date;
 
   @Field()
   priority: string;
 
-  @Field()
-  done: boolean;
+  @Field(() => Boolean, {
+    nullable: true,
+  })
+  done: boolean | null;
+
+  @Field(() => Int)
+  projectId: number;
 
   @Field(() => Int)
   userId: number;

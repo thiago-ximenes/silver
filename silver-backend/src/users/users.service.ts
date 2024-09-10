@@ -5,7 +5,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll() {
-    return this.prisma.user.findMany();
+  async findAllWithOutMe(userId: number) {
+    return this.prisma.user.findMany({
+      where: {
+        id: {
+          not: userId,
+        },
+      },
+    });
+  }
+
+  async me(userId: number) {
+    return this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
   }
 }
