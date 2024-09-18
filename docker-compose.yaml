@@ -14,7 +14,6 @@ services:
     networks:
       - mynet
     tty: true
-
   silver-database:
     image: postgres:15
     container_name: silver-database
@@ -23,7 +22,7 @@ services:
     ports:
       - "${DB_PORT-5432}:5432"
     environment:
-      POSTGRES_USER: ${DB_USER}
+      PGUSER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
       PGPASSWORD: ${DB_PASSWORD}
@@ -42,7 +41,7 @@ services:
     container_name: silver-backend
     restart: always
     env_file: .env
-    command: ["sh", "-c", "npx prisma db push && npm run seed && npm run start:dev"]
+    command: ["sh", "-c", "npm i && npx prisma db push && npm run seed && npm run start:dev"]
     ports:
       - "${PORT-3000}:3000"
     volumes:
